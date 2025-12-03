@@ -1,12 +1,9 @@
 import sys
-from twisted.python import log
+import os
 
 try:
     import cowrie._version as cowrie_version
-
-    __version__ = cowrie_version
+    __version__ = getattr(cowrie_version, '__version__', '2.9.0')
 except ModuleNotFoundError:
-    log.err(
-        "Cowrie is not installed. Run `pip install -e .` to install Cowrie into your virtual enviroment"
-    )
-    sys.exit(1)
+    # When running without pip install -e ., use static version
+    __version__ = "2.9.0"
