@@ -1,8 +1,13 @@
 # Copyright (c) 2024 HoneyBee Project
 # Custom output plugin for HoneyBee integration
 #
+# Protocol Version: 2 (matches HoneyBee Core/Node)
+#
 # This plugin sends Cowrie events to the HoneyBee Node via a TCP socket.
 # The node then forwards these events to the HoneyBee Core manager.
+# 
+# The node enriches events with pot (honeypot) metadata and node information
+# before converting them to PotEvent messages for the core.
 
 from __future__ import annotations
 
