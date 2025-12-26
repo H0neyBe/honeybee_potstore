@@ -40,6 +40,46 @@
         "output_plugin": "honeybee.py",
         "auto_configure": true
       }
+    },
+    {
+      "id": "honnypotter",
+      "name": "HonnyPotter",
+      "version": "1.2.0",
+      "type": "honnypotter",
+      "description": "WordPress login honeypot - captures brute-force attacks and credential stuffing",
+      "protocols": ["http", "https"],
+      "default_ports": {
+        "http": 80,
+        "https": 443
+      },
+      "requirements": {
+        "php": ">=7.4",
+        "php_extensions": ["json", "sockets"],
+        "os": ["linux", "windows", "macos"]
+      },
+      "directory": "HonnyPotter",
+      "setup": {
+        "install": "./install.sh",
+        "config": null,
+        "forwarder": "honeybee-forwarder.php",
+        "entry_point": "standalone.php"
+      },
+      "status": "stable",
+      "features": [
+        "WordPress login emulation",
+        "Brute-force detection",
+        "Credential logging",
+        "XML-RPC attack detection",
+        "Low resource usage",
+        "No database required",
+        "Standalone or WordPress plugin mode"
+      ],
+      "honeybee_integration": {
+        "event_port": 9100,
+        "event_format": "json",
+        "forwarder": "honeybee-forwarder.php",
+        "auto_configure": true
+      }
     }
   ],
   "coming_soon": [
@@ -77,9 +117,12 @@
     "supported_config_keys": [
       "ssh_port",
       "telnet_port",
+      "http_port",
+      "https_port",
       "hostname",
       "log_path",
-      "data_path"
+      "data_path",
+      "pot_id"
     ]
   },
   "node_compatibility": {

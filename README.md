@@ -6,9 +6,10 @@ Honeypot (Pot) collection for HoneyBee. Nodes pull honeypots from this repositor
 
 ## Available Honeypots
 
-| Honeypot | Type | Directory | Status |
-|----------|------|-----------|--------|
-| **Cowrie** | SSH/Telnet | `cowrie/` | ✅ Ready |
+| Honeypot | Type | Protocols | Directory | Status |
+|----------|------|-----------|-----------|--------|
+| **Cowrie** | SSH/Telnet | SSH, Telnet | `cowrie/` | ✅ Ready |
+| **HonnyPotter** | WordPress | HTTP, HTTPS | `HonnyPotter/` | ✅ Ready |
 
 ## How It Works
 
@@ -133,11 +134,11 @@ Send via HoneyBee Core CLI or API:
 ## Honeypot Requirements
 
 Each honeypot in the potstore should:
-- ✅ Be installable via `pip install -r requirements.txt` or `pip install -e .`
-- ✅ Support Python 3.7+
+- ✅ Be installable (Python: `pip install -r requirements.txt`, PHP: `composer install` or standalone)
+- ✅ Support Python 3.7+ or PHP 7.4+
 - ✅ Send events to TCP socket `localhost:9100`
 - ✅ Use JSON format for events (one per line)
-- ✅ Include a `requirements.txt` file
+- ✅ Include installation instructions
 
 ## Directory Structure
 
@@ -145,12 +146,18 @@ Each honeypot in the potstore should:
 honeybee_potstore/
 ├── README.md
 ├── LICENSE
+├── potstore.json        # Pot manifest
 ├── cowrie/              # Cowrie SSH/Telnet honeypot
 │   ├── requirements.txt
 │   ├── src/
 │   │   └── cowrie/
 │   │       └── output/
 │   │           └── honeybee.py  # Custom output plugin
+│   └── ...
+├── HonnyPotter/         # WordPress login honeypot
+│   ├── standalone.php   # Standalone endpoint
+│   ├── honeybee-forwarder.php  # Event forwarder
+│   ├── install.sh      # Installation script
 │   └── ...
 └── [future-pots]/       # Future honeypots
 ```
@@ -163,7 +170,15 @@ Located at: `cowrie/src/cowrie/output/honeybee.py`
 
 Automatically configured by the node to send events to `localhost:9100`.
 
+### HonnyPotter HoneyBee Forwarder
+
+Located at: `HonnyPotter/honeybee-forwarder.php`
+
+PHP-based event forwarder that sends WordPress login honeypot events to `localhost:9100`.
+
 ## Testing a Honeypot
+
+### Testing Cowrie
 
 1. Clone this repository
 2. Install the honeypot:
@@ -176,6 +191,22 @@ Automatically configured by the node to send events to `localhost:9100`.
 3. Configure output to send to `localhost:9100`
 4. Start the honeypot
 5. Attack it and verify events are sent
+
+### Testing HonnyPotter
+
+1. Clone this repository
+2. Install the honeypot:
+   ```bash
+   cd HonnyPotter
+   chmod +x install.sh
+   ./install.sh
+   ```
+3. Configure web server to point to `standalone.php`
+4. Test login endpoint:
+   ```bash
+   curl -X POST http://localhost/standalone.php -d "log=admin&pwd=password123"
+   ```
+5. Verify events are sent to HoneyBee Node
 
 ## License
 
