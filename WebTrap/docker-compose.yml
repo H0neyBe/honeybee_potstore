@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  webtrap:
+    build: .
+    image: honeybee/webtrap:1.0.0
+    container_name: webtrap
+    restart: unless-stopped
+    # Forwarder must reach the HoneyBee Node on the host loopback.
+    network_mode: host
+    environment:
+      HONEYBEE_POT_ID: webtrap-01
+      HONEYBEE_HOST: 127.0.0.1
+      HONEYBEE_PORT: "9100"
+      WEBTRAP_BIND_HOST: 0.0.0.0
+      WEBTRAP_BIND_PORT: "8088"
+      HONEYBEE_ENABLE: "true"
+      HONEYBEE_ENABLE_FILE_LOG: "true"
+      HONEYBEE_LOG_FILE: /opt/webtrap/logs/webtrap.log
+    volumes:
+      - ./logs:/opt/webtrap/logs
+      - ./captured_uploads:/opt/webtrap/captured_uploads

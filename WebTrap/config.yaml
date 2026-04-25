@@ -1,0 +1,39 @@
+# WebTrap configuration (YAML).  Every key may be overridden via
+# environment variables - see README.md.
+
+# HoneyBee integration -------------------------------------------------
+pot_id: webtrap-01
+pot_type: webtrap
+honeybee_host: 127.0.0.1
+honeybee_port: 9100
+honeybee_enable: true
+
+# Listener -------------------------------------------------------------
+bind_host: 0.0.0.0
+bind_port: 8088
+# tls_cert: /etc/webtrap/cert.pem
+# tls_key:  /etc/webtrap/key.pem
+
+# Logging --------------------------------------------------------------
+enable_file_log: true
+log_file: ./logs/webtrap.log
+log_level: INFO
+
+# Capture limits -------------------------------------------------------
+max_body_capture: 65536
+capture_headers: true
+capture_cookies: true
+
+# Deception ------------------------------------------------------------
+fake_hostname: intranet.corp.local
+fake_server_banner: Apache/2.4.41 (Ubuntu)
+fake_php_version: 7.4.3
+
+# Optional canary credentials.  If set, this exact pair will "succeed"
+# on /admin login and reveal a fake admin console - any subsequent
+# requests are flagged with severity=high (canary hit).
+# canary_username: ""
+# canary_password: ""
+
+# Behaviour ------------------------------------------------------------
+trust_proxy_headers: true

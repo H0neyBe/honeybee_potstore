@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ title }}</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f6f7f7;margin:0}
+header{background:#1d2327;color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;font-size:18px}
+nav{display:flex;gap:16px}
+nav a{color:#a7aaad;text-decoration:none;font-size:14px}
+nav a:hover{color:#fff}
+main{padding:30px;max-width:1100px;margin:0 auto}
+.card{background:#fff;border:1px solid #c3c4c7;border-radius:4px;padding:20px;margin-bottom:20px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #ddd;font-size:14px}
+th{background:#f0f0f1}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;background:#2271b1;color:#fff}
+</style>
+</head>
+<body>
+<header>
+<h1>{{ title }}</h1>
+<nav>
+<a href="/admin/dashboard">Dashboard</a>
+<a href="/admin/users">Users</a>
+<a href="/admin/upload">Upload</a>
+<a href="/admin/settings">Settings</a>
+<a href="/api/v1/users">API</a>
+</nav>
+</header>
+<main>
+<div class="card">
+<h2>System Overview</h2>
+<table>
+<tr><th>Hostname</th><td>web01.intranet.corp.local</td></tr>
+<tr><th>Application</th><td>Corp Intranet v3.4.1</td></tr>
+<tr><th>Database</th><td>db-internal.corp.local <span class="badge">connected</span></td></tr>
+<tr><th>Cache</th><td>redis-internal.corp.local <span class="badge">connected</span></td></tr>
+<tr><th>Last Backup</th><td>2 hours ago</td></tr>
+</table>
+</div>
+<div class="card">
+<h2>Recent Users</h2>
+<table>
+<tr><th>ID</th><th>Username</th><th>Email</th><th>Role</th></tr>
+<tr><td>1</td><td>admin</td><td>admin@corp.local</td><td>administrator</td></tr>
+<tr><td>2</td><td>jdoe</td><td>j.doe@corp.local</td><td>user</td></tr>
+<tr><td>3</td><td>svc_backup</td><td>ops@corp.local</td><td>service</td></tr>
+</table>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "webtrap"
+version = "1.0.0"
+description = "Vulnerable web application honeypot for the HoneyBee framework"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+  "Flask>=2.3,<4",
+  "PyYAML>=6.0",
+]
+
+[project.scripts]
+webtrap = "webtrap.app:create_app"
+
+[tool.setuptools.packages.find]
+include = ["webtrap*"]

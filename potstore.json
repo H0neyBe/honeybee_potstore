@@ -1,8 +1,8 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "protocol_version": 2,
   "repository": "https://github.com/H0neyBe/honeybee_potstore",
-  "last_updated": "2024-12-24",
+  "last_updated": "2026-04-25",
   "pots": [
     {
       "id": "cowrie",
@@ -80,6 +80,50 @@
         "forwarder": "honeybee-forwarder.php",
         "auto_configure": true
       }
+    },
+    {
+      "id": "webtrap",
+      "name": "WebTrap",
+      "version": "1.0.0",
+      "type": "webtrap",
+      "description": "Vulnerable web application honeypot - fake admin panels, login pages, REST/GraphQL APIs, file uploads and misconfigured services",
+      "protocols": ["http", "https"],
+      "default_ports": {
+        "http": 8088,
+        "https": 8443
+      },
+      "requirements": {
+        "python": ">=3.8",
+        "python_packages": ["Flask>=2.3", "PyYAML>=6.0"],
+        "os": ["linux", "windows", "macos"]
+      },
+      "directory": "WebTrap",
+      "setup": {
+        "install": "./install.sh",
+        "config": "config.yaml",
+        "forwarder": "webtrap/forwarder.py",
+        "entry_point": "standalone.py"
+      },
+      "status": "stable",
+      "features": [
+        "Fake admin panels (WordPress, Joomla, phpMyAdmin, generic /admin)",
+        "REST and GraphQL API traps with dummy data",
+        "File upload capture with SHA-256 + webshell detection",
+        "Misconfigured-service traps (.env, .git, phpinfo, /actuator, backups)",
+        "Full request capture (headers, body, cookies, query)",
+        "User-Agent fingerprinting + offensive-tool classification",
+        "Heuristic payload tagging (sqli, xss, rce, lfi, ssrf, log4shell, ssti)",
+        "Per-IP / per-cookie behavioural session tracking",
+        "Optional canary credentials for high-confidence intrusion alerts",
+        "Async TCP JSON-line forwarder with backoff",
+        "Standalone, Docker, or importable Flask module"
+      ],
+      "honeybee_integration": {
+        "event_port": 9100,
+        "event_format": "json",
+        "forwarder": "webtrap/forwarder.py",
+        "auto_configure": true
+      }
     }
   ],
   "coming_soon": [
@@ -122,7 +166,13 @@
       "hostname",
       "log_path",
       "data_path",
-      "pot_id"
+      "pot_id",
+      "bind_host",
+      "bind_port",
+      "tls_cert",
+      "tls_key",
+      "canary_username",
+      "canary_password"
     ]
   },
   "node_compatibility": {
@@ -130,4 +180,3 @@
     "protocol": 2
   }
 }
-
