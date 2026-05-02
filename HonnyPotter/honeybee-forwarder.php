@@ -21,6 +21,18 @@
  */
 function honeybee_forward_event($username, $password, $ip_address = null, $user_agent = null, $pot_id = 'honnypotter-01')
 {
+    // Allow HoneyBee node to inject deployment-specific values via a tiny
+    // generated config file dropped next to this forwarder at install time.
+    static $hb_cfg = null;
+    if ($hb_cfg === null) {
+        $cfg_path = __DIR__ . '/honeybee-config.php';
+        $hb_cfg = is_file($cfg_path) ? (require $cfg_path) : [];
+        if (!is_array($hb_cfg)) { $hb_cfg = []; }
+    }
+    if (!empty($hb_cfg['pot_id'])) {
+        $pot_id = $hb_cfg['pot_id'];
+    }
+
     // Get source IP if not provided
     if ($ip_address === null) {
         $ip_address = honeybee_get_client_ip();
@@ -62,8 +74,17 @@ function honeybee_forward_event($username, $password, $ip_address = null, $user_
  */
 function honeybee_send_event($event)
 {
-    $host = '127.0.0.1';
-    $port = 9100;
+    static $hb_cfg = null;
+    if ($hb_cfg === null) {
+        $cfg_path = __DIR__ . '/honeybee-config.php';
+        $hb_cfg = is_file($cfg_path) ? (require $cfg_path) : [];
+        if (!is_array($hb_cfg)) { $hb_cfg = []; }
+    }
+    if (isset($hb_cfg['honeybee_enable']) && !$hb_cfg['honeybee_enable']) {
+        return false;
+    }
+    $host = !empty($hb_cfg['honeybee_host']) ? $hb_cfg['honeybee_host'] : '127.0.0.1';
+    $port = !empty($hb_cfg['honeybee_port']) ? (int)$hb_cfg['honeybee_port'] : 9100;
     $timeout = 5;
     
     // Create socket connection
